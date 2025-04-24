@@ -1,0 +1,15 @@
+{
+    // "rust-analyzer.procMacro.enable": true,
+    // "editor.formatOnSave": true,
+    // "[rust]": {
+    //     "editor.defaultFormatter": "rust-lang.rust-analyzer",
+    //     "editor.formatOnSave": true
+    // },
+    // "rust-analyzer.linkedProjects": [
+    //     "./cmd/server/Cargo.toml"
+    // ],
+    // "rust-analyzer.cargo.allTargets": true,
+    // "rust-analyzer.cargo.noDefaultFeatures": false,
+    // "rust-analyzer.cargo.target": null,
+    // "rust-analyzer.check.command": "clippy",
+}
