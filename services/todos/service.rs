@@ -12,7 +12,6 @@ mod tests;
  * It is used to abstract the repository from the controller.
  * It is also used to add business logic to the repository.
  */
-
 #[derive(Clone, FromRef)]
 pub struct Service {
     repository: Repository,
@@ -24,11 +23,17 @@ impl Service {
     }
 
     pub async fn get_todos(&self) -> Result<Vec<Todo>, Error> {
-        self.repository.get_todos().await.map_err(Error::GetTodosFailed)
+        self.repository
+            .get_todos()
+            .await
+            .map_err(Error::GetTodosFailed)
     }
 
-    pub async fn create_todo(&self, title: String) -> Result<Todo, Error> {
-        self.repository.create_todo(title, false).await.map_err(Error::CreateTodoFailed)
+    pub async fn create_todo(&self, title: String) -> Result<(), Error> {
+        self.repository
+            .create_todo(title, false)
+            .await
+            .map_err(Error::CreateTodoFailed)
     }
 }
 
@@ -39,8 +44,4 @@ pub enum Error {
 
     #[error("Failed to create todo")]
     CreateTodoFailed(sqlx::Error),
-}
-
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
 }
