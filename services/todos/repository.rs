@@ -20,8 +20,8 @@ impl Repository {
         Ok(todos)
     }
 
-    pub async fn create_todo(&self, title: String, completed: bool) -> Result<Todo, sqlx::Error> {
-        let todo = sqlx::query_as!(
+    pub async fn create_todo(&self, title: String, completed: bool) -> Result<(), sqlx::Error> {
+        sqlx::query_as!(
             Todo,
             r#"INSERT INTO todos (title, completed) VALUES ($1, $2) RETURNING id, title, completed"#,
             title,
@@ -30,6 +30,6 @@ impl Repository {
         .fetch_one(&self.db_pool)
         .await?;
 
-        Ok(todo)
+        Ok(())
     }
 }

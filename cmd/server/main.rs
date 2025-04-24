@@ -5,6 +5,9 @@ mod database;
 use database::create_db_pool;
 
 mod todos;
+mod webapp;
+
+mod errors;
 
 #[tokio::main]
 async fn main() -> Result<(), anyhow::Error> {
