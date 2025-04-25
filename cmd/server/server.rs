@@ -4,20 +4,23 @@ use axum::extract::FromRef;
 use sqlx::PgPool;
 
 use todo_service::{Repository as TodosRepository, Service as TodosService};
+use user_service::UserService;
 
-use crate::webapp::new_api_router;
+use crate::router::new_api_router;
 
 #[derive(Clone, FromRef)]
 pub struct ServerState {
     pub db_pool: PgPool,
     pub todos_service: TodosService,
+    pub user_service: UserService,
 }
 
 impl ServerState {
     pub fn new(db_pool: PgPool) -> Self {
         Self {
             db_pool: db_pool.clone(),
-            todos_service: TodosService::new(TodosRepository::new(db_pool)),
+            todos_service: TodosService::new(TodosRepository::new(db_pool.clone())),
+            user_service: UserService::new(db_pool),
         }
     }
 }

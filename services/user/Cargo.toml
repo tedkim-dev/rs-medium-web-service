@@ -1,0 +1,18 @@
+[package]
+name = "user_service"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "user_service"
+path = "user_service.rs"
+
+[dependencies]
+sqlx = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+axum = { workspace = true }
+chrono = { workspace = true }
+uuid = { workspace = true }

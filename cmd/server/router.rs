@@ -3,14 +3,16 @@ use std::sync::Arc;
 use axum::{Json, Router};
 use http::{HeaderValue, Method};
 
-use crate::{server::ServerState, todos};
+use crate::{server::ServerState, todos, users};
 
 pub fn new_api_router(server_state: Arc<ServerState>) -> Router {
     let todos_router = todos::router();
+    let users_router = users::router();
 
     axum::Router::new()
         .route("/", axum::routing::get(handler))
         .merge(todos_router)
+        .merge(users_router)
         .layer(
             tower_http::cors::CorsLayer::new()
                 .allow_origin("http://localhost:3000".parse::<HeaderValue>().unwrap())
