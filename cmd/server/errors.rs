@@ -10,7 +10,7 @@ pub enum ApiError {
     NotFound(anyhow::Error),
     BadRequest(anyhow::Error),
     // Validation(anyhow::Error),
-    // Authorization(anyhow::Error),
+    Unauthorized(anyhow::Error),
 }
 
 impl fmt::Display for ApiError {
@@ -21,7 +21,7 @@ impl fmt::Display for ApiError {
             ApiError::NotFound(e) => write!(f, "Not found error: {}", e),
             ApiError::BadRequest(e) => write!(f, "Bad request error: {}", e),
             // ApiError::Validation(e) => write!(f, "Validation error: {}", e),
-            // ApiError::Authorization(e) => write!(f, "Authorization error: {}", e),
+            ApiError::Unauthorized(e) => write!(f, "Unauthorized error: {}", e),
         }
     }
 }
@@ -49,10 +49,10 @@ impl IntoResponse for ApiError {
             //     StatusCode::BAD_REQUEST,
             //     format!("Validation error: {}", e),
             // ),
-            // ApiError::Authorization(e) => (
-            //     StatusCode::UNAUTHORIZED,
-            //     format!("Authorization error: {}", e),
-            // ),
+            ApiError::Unauthorized(e) => (
+                StatusCode::UNAUTHORIZED,
+                format!("{}", e),
+            ),
         };
 
         let body = Json(json!({

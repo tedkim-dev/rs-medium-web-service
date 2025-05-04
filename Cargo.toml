@@ -16,3 +16,5 @@ thiserror = "2.0.12"
 axum = { version = "0.8.3", features = ["macros"] } # Web framework that focuses on ergonomics and modularity.
 chrono = { version = "0.4.40", features = ["clock", "serde"] }
 uuid = { version = "1.16.0", features = ["v4", "serde"] }
+jsonwebtoken = "9.3.1"
+base64 = "0.22.1"

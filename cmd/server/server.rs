@@ -13,14 +13,17 @@ pub struct ServerState {
     pub db_pool: PgPool,
     pub todos_service: TodosService,
     pub user_service: UserService,
+    // TODO: secret string
+    pub jwt_secret: String,
 }
 
 impl ServerState {
-    pub fn new(db_pool: PgPool) -> Self {
+    pub fn new(db_pool: PgPool, jwt_secret: String) -> Self {
         Self {
             db_pool: db_pool.clone(),
             todos_service: TodosService::new(TodosRepository::new(db_pool.clone())),
             user_service: UserService::new(db_pool),
+            jwt_secret,
         }
     }
 }
