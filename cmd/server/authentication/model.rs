@@ -16,3 +16,7 @@ pub struct Claims {
     pub sub: String,
     pub exp: usize,
 }
+
+pub struct AuthUser {
+    pub email: String, // sub claim
+}
