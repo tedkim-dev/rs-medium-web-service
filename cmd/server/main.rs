@@ -4,9 +4,10 @@ use server::ServerState;
 mod database;
 use database::create_db_pool;
 
+mod authentication;
+mod router;
 mod todos;
 mod users;
-mod router;
 
 mod errors;
 
@@ -16,8 +17,10 @@ async fn main() -> Result<(), anyhow::Error> {
 
     // set up connection pool
     let db_pool = create_db_pool().await;
+    let jwt_base64 = std::env::var("JWT_SECRET")
+        .expect("JWT_BASE64 is not set");
 
-    let server_state = server::ServerState::new(db_pool);
+    let server_state = ServerState::new(db_pool, jwt_base64);
 
     server::run_server(server_state).await?;
 

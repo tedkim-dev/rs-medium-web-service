@@ -27,4 +27,23 @@ impl UserRepository {
             .await?;
         Ok(user)
     }
+
+    pub async fn get_user_by_email(&self, email: String) -> Result<User, sqlx::Error> {
+        let user = query_as!(User, "SELECT * FROM users WHERE email = $1", email)
+            .fetch_one(&self.db)
+            .await?;
+        Ok(user)
+    }
+
+    pub async fn create_user(&self, email: String, password: String) -> Result<User, sqlx::Error> {
+        let user = query_as!(
+            User,
+            "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *",
+            email,
+            password
+        )
+        .fetch_one(&self.db)
+        .await?;
+        Ok(user)
+    }
 }

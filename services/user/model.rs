@@ -6,6 +6,7 @@ use uuid::Uuid;
 pub struct User {
     pub id: Uuid,
     pub email: String,
+    pub password: String,
     pub created_at: Option<DateTime<Utc>>,
     pub updated_at: Option<DateTime<Utc>>,
 }
@@ -13,4 +14,5 @@ pub struct User {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CreateUser {
     pub email: String,
+    pub password: String,
 }

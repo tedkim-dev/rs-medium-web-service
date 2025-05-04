@@ -16,13 +16,15 @@ tracing-subscriber = { version = "~0.3.19", features = ["env-filter"] } # Utilit
 sqlx = { workspace = true }
 serde = { workspace = true } # A serialization/deserialization framework.
 serde_json = { workspace = true } # Serde serialization/deserialization of JSON data.
-
-todo_service = { path = "../../services/todos" }
-user_service = { path = "../../services/user" }
-hello = { path = "../../libs/hello" }
 tower-http = { version = "0.6.2", features = ["cors"] }
 dotenvy = "0.15.7"
 anyhow = { workspace = true }
+chrono = { workspace = true }
+todo_service = { path = "../../services/todos" }
+user_service = { path = "../../services/user" }
+hello = { path = "../../libs/hello" }
+jsonwebtoken = { workspace = true }
+
 
 [[bin]]
 name = "server"
