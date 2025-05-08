@@ -29,6 +29,7 @@ todo_service = { path = "../../services/todos" }
 user_service = { path = "../../services/user" }
 hello = { path = "../../libs/hello" }
 queue = { path = "../../libs/queue" }
+cron = "0.15.0"
 
 [[bin]]
 name = "server"
