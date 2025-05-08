@@ -3,23 +3,22 @@ use std::{sync::Arc, time::Duration};
 use futures::StreamExt;
 use queue::{postgres_queue::PostgresQueue, Job, Message, Queue};
 use sqlx::PgPool;
+use tokio::sync::watch;
 
 const CONCURRENCY: usize = 50;
 
-pub async fn start_worker(db_pool: PgPool) {
+pub async fn start_worker(db_pool: PgPool, shutdown_rx: watch::Receiver<bool>) {
     let queue = Arc::new(PostgresQueue::new(db_pool));
 
-    println!("Starting worker");
+    println!("worker: starting worker");
     // run worker
     let worker_queue = queue.clone(); // queue is an Arc pointer, so we only copy the reference
-    tokio::spawn(async move {
-        run_worker(worker_queue).await;
-    });
+
+    run_worker(worker_queue, shutdown_rx).await;
 }
 
-async fn run_worker(queue: Arc<dyn Queue>) {
-    println!("Running worker");
-    loop {
+async fn run_worker(queue: Arc<dyn Queue>, shutdown_rx: watch::Receiver<bool>) {
+    while !shutdown_rx.has_changed().unwrap() {
         let jobs = match queue.pull(CONCURRENCY as u32).await {
             Ok(jobs) => jobs,
             Err(err) => {
@@ -58,6 +57,7 @@ async fn run_worker(queue: Arc<dyn Queue>) {
         // sleep not to overload our database
         tokio::time::sleep(Duration::from_millis(125)).await;
     }
+    println!("worker: received shutdown signal and exiting");
 }
 
 async fn handle_job(job: Job) -> Result<(), queue::Error> {
